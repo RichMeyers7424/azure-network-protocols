@@ -3,7 +3,7 @@
 </p>
 
 <h1>Network Security Groups (NSGs) and Inspecting Traffic Between Azure Virtual Machines</h1>
-In this tutorial, we will observe various network traffic to and from Azure Virtual Machines with Wireshark as well as experiment with Network Security Groups.
+In this tutorial, we will observe various network traffic to and from Azure Virtual Machines with Wireshark as well as experiment with Network Security Groups. This will give us an understaning of how differnet traffic flows with the use of Wireshark.
 
 
 - [How to Setup VMs and a Virtual Network in Azure](https://github.com/)<br />
@@ -28,53 +28,47 @@ In this tutorial, we will observe various network traffic to and from Azure Virt
 - Step 4: Observe SSH traffic by connecting through the command line on the Windows VM
 - Step 5: Observe DNS traffic on the Windows VM
 - Step 6: Observe RDP traffic on the Windows VM
-- Step 7: Clean up by deleting the resource groups to ensure we don't incur any charges or waste credits
+- Step 7: Clean up by deleting the resource groups 
 
 <h2>Creating your VM's</h2>
 
-<p>
-<img src=""/>
-</p>
-<p>
-Hello, and welcome!! To get started, go to your Azure portal https://portal.azure.com and create your resource group for this lab. Inside your resource group, begin to create your VMs, one running Windows,
-</p>
-<br />
-
 
 <p>
-<img src="https:"/>
+Hello, and welcome!! To get started, go to your Azure portal https://portal.azure.com and create your resource group for this lab. Inside your resource group, begin to create your VMs, one running Windows and the other running Linux. Copy the IP address of your Windows VM and remote desktop in.
 </p>
-<p>
-In the VM, open up microsoft edge and go to this URL https://www.wireshark.org/download.html (just copy/paste). Next download the Wireshark x64 installer.
-</p>
+<img src="https://i.imgur.com/HJ2dQ6S.png"/>
 <br />
 
 <p>
-<img src="https:/.jpg"/>
+In the VM, open up microsoft edge and look up Wireshark.  Make sure you go to the acutal website and download the Wireshark x64 installer.
 </p>
+<img src="https://i.imgur.com/Hh8a8sq.png"/>
+<br />
+
 <p>
 Now open the installer and install Wireshark to the defaults.
 </p>
+<img src="https://i.imgur.com/Y4HTfwF.png"/>
 <br />
 
 <p>
-<img src="https://i.e.png"/>
-</p>
-<p>
+
 Once Wireshark opens, filter by "icmp" packets and hit the blue shark fin icon in the top left to start capturing traffic.
 </p>
+<img src="https://i.imgur.com/dqp13Gx.png"/>
+</p>
+<img src="https://i.imgur.com/cYHah9o.png"/>
+</p>
 <br />
 
-<p>
-<img src="https://i.7.png"/>
-</p>
+
 <p>
 Find your Ubuntu VM's private IP and copy it.
 </p>
 <br />
-
+<img src=""/>
 <p>
-<img src="https://i.imng"/>
+
 </p>
 <p>
 Now go back to the VM open the command line and ping -t the private IP address of the Ubuntu VM to make continuous ICMP traffic that will be captured by Wireshark. We should see requests from the Ubuntu VM's private IP, and replies from our Windows private IP as well.
