@@ -39,7 +39,7 @@ This lab assumes you have already completed the previous lab/tutorial as it is t
 <img src=""/>
 </p>
 <p>
-First go to your Azure portal if it is not already open https://portal.azure.com/. 
+First go to your Azure portal https://portal.azure.com/. 
 
 Then get the public IP of the Windows VM and copy it, you can find that on the Virtual Machines section on the portal and clicking on the VM in question. Next, go to the Windows start menu and search "rdp" and open the RDP app, then paste the IP of the Windows VM in the first box and hit connect. Then enter the username and password that we set when we created the VM. Click OK.
 </p>
