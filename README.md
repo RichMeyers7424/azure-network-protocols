@@ -34,7 +34,7 @@ In this tutorial, we will observe various network traffic to and from Azure Virt
 
 
 <p>
-Hello, and welcome!! To get started, go to your Azure portal https://portal.azure.com and create your resource group for this lab. Inside your resource group, begin to create your VMs, one running Windows and the other running Linux. Copy the IP address of your Windows VM and remote desktop in.
+Hello, and welcome!! To get started, go to your Azure portal https://portal.azure.com and create your resource group for this lab. Inside your resource group, begin to create your VMs, one running Windows and the other running Linux. Copy the IP address of your Windows VM, VM1 and remote desktop in.
 </p>
 <img src="https://i.imgur.com/HJ2dQ6S.png"/>
 <br />
@@ -63,21 +63,21 @@ Once Wireshark opens, filter by "icmp" packets and hit the blue shark fin icon i
 
 
 <p>
-Find your Ubuntu VM's private IP and copy it. To do so, go to the VM inside of the Azure portal. Once your in VM2, the Private IP address is under the networking section.
+Find your VM2's private IP and copy it. To do so, go to the VM inside of the Azure portal. Once your in VM2, the Private IP address is under the networking section.
 </p>
 <img src="https://i.imgur.com/OiFbjX4.png"/>
 </p>
 <br />
 
 <p>
-Now go back to VM1 open PowerShell and ping -t the private IP address of the Ubuntu VM; this will make continuous ICMP traffic that will be captured by Wireshark. We should see requests from the Ubuntu VM's private IP, and replies from our Windows private IP as well.
+Now go back to VM1 open PowerShell and ping -t the private IP address of VM2; this will make continuous ICMP traffic that will be captured by Wireshark. We should see requests from VM2's private IP, and replies from our Windows private IP as well.
 </p>
 <img src="https://i.imgur.com/nZ8HRnN.png"/>
 </p>
 <br />
 
 <p>
-Now we are going to disable ICMP traffic from the Ubuntu VM's NSG (network security group) in the Azure portal. To do this, look up Network Security Group in the Azure portal searchbar. Click on VM2s NSG.
+Now we are going to disable ICMP traffic from VM2's NSG (network security group) in the Azure portal. To do this, look up Network Security Group in the Azure portal searchbar. Click on VM2s NSG.
 </p>
 <img src="https://i.imgur.com/FOkvu4G.png"/>
 </p>
@@ -115,7 +115,7 @@ So, to re-enable the ping, we will go back to the NSG for VM2, and just set the 
 
 
 <p>
-Now try to ping the Ubuntu VM again using the ping command. We now should see that the Ubuntu VM is now sending replies again!
+Now try to ping VM2 again using the ping command. We now should see that VM2 is now sending replies again!
 </p>
 <img src="https://i.imgur.com/gu8NzIs.png"/>
 </p>
@@ -151,7 +151,7 @@ In the remote SSH connection within the command line type some linux shell comma
 
 <p>
 Now let's observe DHCP traffic.  
-In wireshark filter by dchp and refresh. In the command line type "ipconfig /renew" to issue a new IP address to the Windows VM, this will use the DHCP protocol and we will be observable in wireshark.
+In wireshark, filter by dchp and refresh. In the command line type "ipconfig /renew" to issue a new IP address to VM1, this will use the DHCP protocol and we will be observable in wireshark.
 </p>
 <img src="https://i.imgur.com/r65YEyC.png"/>
 </p>
