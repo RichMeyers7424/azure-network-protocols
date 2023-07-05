@@ -63,95 +63,72 @@ Once Wireshark opens, filter by "icmp" packets and hit the blue shark fin icon i
 
 
 <p>
-Find your Ubuntu VM's private IP and copy it.
+Find your Ubuntu VM's private IP and copy it. To do so, go to the VM inside of the Azure portal. Once your in VM2, the Private IP address is under the networking section.
 </p>
-<br />
-<img src=""/>
-<p>
-
-</p>
-<p>
-Now go back to the VM open the command line and ping -t the private IP address of the Ubuntu VM to make continuous ICMP traffic that will be captured by Wireshark. We should see requests from the Ubuntu VM's private IP, and replies from our Windows private IP as well.
+<img src="https://i.imgur.com/OiFbjX4.png"/>
 </p>
 <br />
 
 <p>
+Now go back to VM1 open PowerShell and ping -t the private IP address of the Ubuntu VM; this will make continuous ICMP traffic that will be captured by Wireshark. We should see requests from the Ubuntu VM's private IP, and replies from our Windows private IP as well.
 </p>
-<p>
-Now we are going to disable ICMP traffic from the Ubuntu VM's NSG (network security group) in the Azure portal. To do this, type "NSG" in the Azure portal searchbar and click into Network security groups.
-</p>
-<br />
-
-<p>
-<img src="https://m/T0yT1Ni.png"/>
-</p>
-<p>
-Find the NSG for the Ubuntu VM.
+<img src="https://i.imgur.com/nZ8HRnN.png"/>
 </p>
 <br />
 
 <p>
-<img src="https:/.Zo.png"/>
+Now we are going to disable ICMP traffic from the Ubuntu VM's NSG (network security group) in the Azure portal. To do this, look up Network Security Group in the Azure portal searchbar. Click on VM2s NSG.
 </p>
-<p>
-Once you found the NSG for the Ubuntu VM, click on inbound security rules.
-</p>
-<br />
-
-<p>
-<img src="https://g5fruj.png"/>
-</p>
-<p>
-Add a new rule with ICMP as the selected protocol, set the action to deny, and set the priority to any number that is lower than the first rule in the list (the lower the number, the higher the priority that the rule has) I set it to 299 as it has higher priority than 300. Now add the rule and wait for it to apply.
+<img src="https://i.imgur.com/FOkvu4G.png"/>
 </p>
 <br />
 
 <p>
-<img src="https://i.i/U6QJ1li.png"/>
+Once your in the NSG for VM2, click on inbound security rules.
 </p>
+<img src="https://i.imgur.com/43lzXLW.png"/>
+<br />
+
+
 <p>
-Now going back into the VM, in the command line hit Ctrl + C to stop the continuous ping that we did with the ping -t command. Now hit the refresh button in Wireshark and continue without saving. Now try to ping the private IP of the Ubuntu VM again, now notice that our ping requests are now being timed out as we are not getting replies from our Ubuntu VM.
+Add a new rule with ICMP as the selected protocol, set the action to deny, and set the priority to any number that is lower than the first rule in the list (the lower the number, the higher the priority that the rule has) I set it to 200 as it has higher priority than 300. Now add the rule and wait for it to apply.
+</p>
+<img src="https://i.imgur.com/507lKpN.png"/>
 </p>
 <br />
 
+
 <p>
-<img src="https://i.imgu91rAc3.png"/>
+Now going back into VM1, try to ping the private IP of VM2 again, now notice that our ping requests are now being timed out as we are not getting replies from VM2.
 </p>
-<p>
-Now lets delete the NSG rule we made on the ubuntu VM
+<img src="https://i.imgur.com/8qzElIZ.png"/>
 </p>
 <br />
 
+
 <p>
-<img src="https://i.imgustmT.png"/>
+So, to re-enable the ping, we will go back to the NSG for VM2, and just set the rule to allow traffic instead of deny, essencially just turning the rule off.
 </p>
+<img src="https://i.imgur.com/RNRP286.png"/>
+</p>
+<br />
+
+
 <p>
 Now try to ping the Ubuntu VM again using the ping command. We now should see that the Ubuntu VM is now sending replies again!
 </p>
+<img src="https://i.imgur.com/gu8NzIs.png"/>
+</p>
 <br />
 
-<p>
-<img src="https://i.imgur.co.png"/>
-</p>
-<p>
-Now that we have observed ICMP traffic, we will now connect to our Ubuntu VM via SSH (secure shell) within the command line inside of the Windows VM.
-  
-As the image above shows, in the command line type "SSH (whatever the private IP of your Ubuntu VM is)". 
-  
-When prompted the following
 
-"The authenticity of host '10.0.0.5 (10.0.0.5)' can't be established.
-ECDSA key fingerprint is SHA256:73iEIznECaIszgz83pKTfng9jk2d16JT2ZozJtn3a68.
-Are you sure you want to continue connecting (yes/no/[fingerprint])?"
-
-Type "yes"
-  
-After connecting it will then prompt you for the password of the Ubuntu VM (we set this when we made it), type the password (note: the password won't be visible as you type it in, it may look like you aren't typing it in but you are).
+<p>
+Now that we have observed ICMP traffic, we will now connect to VM2 via SSH (secure shell) within the command line inside of VM1. We will also switch over from ICMP traffic to ssh traffic on Wireshark. To do this, simply click on the green bar under the sharkfin, and type ssh and hit enter.  This should switch over to only viewing ssh traffic. To log into VM2, in powershell, type ssh and the username for VM2 @ the ip address of VM2. Note that when you are typing in your password, it will not show up, just trust that you are entering the correct password. If it does fail, just keep trying until you get in.
 </p>
 <br />
 
 <p>
-<img src="https:///oEBPtxB.png"/>
+<img src="https://i.imgur.com/gtB9imf.png"/>
 </p>
 <p>
 Now in Wireshark filter for ssh traffic and refresh, again continue without saving.
@@ -159,31 +136,37 @@ Now in Wireshark filter for ssh traffic and refresh, again continue without savi
 <br />
 
 <p>
-<img src="https:/xebnIjE.png"/>
+<img src="https://i.imgur.com/gtB9imf.png"/>
 </p>
 <p>
 In the remote SSH connection within the command line type some linux shell commands like man, ls, pwd, etc and observe the SSH traffic.
-  
-Type "exit" to terminate the SSH connection.
 </p>
 <br />
 
 <p>
-<img src="https://i.OVeWYF.png"/>
-</p>
-<p>
-Now let's observe DHCP traffic.
-  
-In wireshark filter by dchp and refresh. In the command line type "ipconfig /renew" to issue a new IP address to the Windows VM, this will use the DHCP protocol and the traffic will be observable in wireshark.
-  
-Now I think we get the gist of it now. On your own you can try to observe DNS traffic by typing in the command line "nslookup google.com", or filter for RDP traffic in wireshark by typing the in the filter "tcp.port == 3389" and see the constant RDP traffic as we are currently inside of a remote desktop connection.
-  
-Well congrats, you have made it to the end of this lab! Now for the very last step lets clean up our Azure resources so we don't incur any costs.
+<img src="https://i.imgur.com/fvMYtrn.png"/>
 </p>
 <br />
 
+
 <p>
-<img src="https:.com/ZttsXKR.png"/>
+Now let's observe DHCP traffic.  
+In wireshark filter by dchp and refresh. In the command line type "ipconfig /renew" to issue a new IP address to the Windows VM, this will use the DHCP protocol and we will be observable in wireshark.
 </p>
+<img src="https://i.imgur.com/r65YEyC.png"/>
+</p>
+<br />  
+
 <p>
-To delete the resource group, just go back to the resource groups page, click on the resource group, click delete resource group, and type/copy paste the resource group's name to confirm, and then click delete.
+Lets try to observe DNS traffic by typing in the command line "nslookup google.com", or filter for RDP traffic in wireshark by typing the in the filter "tcp.port == 3389" and see the constant RDP traffic as we are currently inside of a remote desktop connection.
+</p>
+<img src="https://i.imgur.com/6DAmtnl.png"/>
+</p>
+<br />  
+
+<p>
+Congrats! You have made it to the end of this lab! Now for the very last step lets clean up our Azure resources so we don't incur much costs. Just go to the Resource group in the Azure portal and delete the whole group. 
+</p>
+<br />
+
+
